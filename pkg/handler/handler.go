@@ -16,7 +16,7 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
 
-	team := router.Group("/team")
+	team := router.Group("/team", h.userIdentity)
 	{
 		team.POST("/create", h.createTeam)
 	}

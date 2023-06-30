@@ -21,7 +21,7 @@ func (r *TeamPostgres) CreateTeam(userId int, team authPract.Team) (int, error) 
 	}
 
 	var id int
-	createTeamQuery := fmt.Sprintf("INSERT INTO %s (team_name, team_description) VALUES ($1, $2) RETURNING id", teamTable)
+	createTeamQuery := fmt.Sprintf("INSERT INTO %s (name, team_description) VALUES ($1, $2) RETURNING id", teamTable)
 	row := tx.QueryRow(createTeamQuery, team.Name, team.Description)
 	if err := row.Scan(&id); err != nil {
 		tx.Rollback()

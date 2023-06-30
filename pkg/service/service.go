@@ -7,6 +7,7 @@ import (
 
 type Team interface {
 	CreateTeam(userId int, team authPract.Team) (int, error)
+	ParseToken(accessToken string) (int, error)
 }
 
 type Service struct {
