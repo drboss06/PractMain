@@ -19,6 +19,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	team := router.Group("/team", h.userIdentity)
 	{
 		team.POST("/create", h.createTeam)
+		team.POST("/send", h.sendMail)
 	}
 	return router
 }

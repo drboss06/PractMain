@@ -37,3 +37,13 @@ func (r *TeamPostgres) CreateTeam(userId int, team authPract.Team) (int, error) 
 
 	return id, tx.Commit()
 }
+
+func (r *TeamPostgres) AddUserToTeam(userId int, teamId int) error {
+	addUserToTeamQuery := fmt.Sprintf("INSERT INTO %s (user_id, team_id) VALUES ($1, $2)", userTeamTable)
+
+	_, err := r.db.Exec(addUserToTeamQuery, userId, teamId)
+	if err != nil {
+		return err
+	}
+	return nil
+}

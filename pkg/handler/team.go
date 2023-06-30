@@ -27,3 +27,28 @@ func (h *Handler) createTeam(c *gin.Context) {
 	})
 
 }
+
+type mailUser struct {
+	Mail string `json:"mail" binding:"required"`
+}
+type signInInput struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+func (h *Handler) sendMail(c *gin.Context) {
+	var inputMail mailUser
+
+	if err := c.BindJSON(&inputMail); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	err := h.services.SendMailToUser(inputMail.Mail)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"status": "ok",
+	})
+}

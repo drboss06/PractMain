@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
+	"github.com/sirupsen/logrus"
+	"net/smtp"
 	"time"
 )
 
@@ -30,6 +32,34 @@ func NewTeamService(repo repository.Team) *TeamService {
 
 func (s *TeamService) CreateTeam(userId int, team authPract.Team) (int, error) {
 	return s.repo.CreateTeam(userId, team)
+}
+
+func (s *TeamService) SendMailToUser(userEmail string) error {
+	from := "s4sha228@yandex.ru"
+
+	user := "s4sha228@yandex.ru"
+	//password := "sfbeguevylkbnyva"
+
+	to := []string{
+		userEmail,
+	}
+
+	addr := "smtp.yandex.ru:587"
+	host := "smtp.yandex.ru"
+
+	msg := []byte("Subject: Test mail\r\n\r\n" +
+		"localhost:8000/team/add\r\n")
+
+	auth := smtp.PlainAuth("", user, "sfbeguevylkbnyva", host)
+
+	err := smtp.SendMail(addr, auth, from, to, msg)
+
+	if err != nil {
+		logrus.Fatalf(err.Error())
+	}
+
+	//fmt.Println("Email sent successfully")
+	return nil
 }
 
 func (s *TeamService) ParseToken(accessToken string) (int, error) {
