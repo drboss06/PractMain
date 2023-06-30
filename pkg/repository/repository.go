@@ -5,17 +5,16 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type Authorization interface {
-	CreateUser(user authPract.User) (int, error)
-	GetUser(username, password string) (authPract.User, error)
+type Team interface {
+	CreateTeam(userId int, team authPract.Team) (int, error)
 }
 
 type Repository struct {
-	Authorization
+	Team
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Authorization: NewAuthPostgres(db),
+		Team: NewTeamPostgres(db),
 	}
 }
