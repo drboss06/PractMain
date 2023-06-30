@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/PractAuth.iml" filepath="$PROJECT_DIR$/.idea/PractAuth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PractMain-auth.iml" filepath="$PROJECT_DIR$/.idea/PractMain-auth.iml" />
     </modules>
   </component>
 </project>

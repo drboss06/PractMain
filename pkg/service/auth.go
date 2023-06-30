@@ -16,7 +16,7 @@ const (
 	tokenTTL   = 12 * time.Hour
 )
 
-type tokenClaim struct {
+type tokenClaims struct {
 	jwt.StandardClaims
 	UserID int `json:"user_id"`
 }
@@ -43,12 +43,11 @@ func (s *AuthService) CreateUser(user authPract.User) (int, error) {
 
 func (s *AuthService) GenerateToken(username, password string) (string, error) {
 	user, err := s.repo.GetUser(username, generatePasswordHash(password))
-
 	if err != nil {
 		return "", err
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, &tokenClaim{
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(tokenTTL).Unix(),
 			IssuedAt:  time.Now().Unix(),
@@ -59,7 +58,7 @@ func (s *AuthService) GenerateToken(username, password string) (string, error) {
 }
 
 func (s *AuthService) ParseToken(accessToken string) (int, error) {
-	token, err := jwt.ParseWithClaims(accessToken, &tokenClaim{}, func(token *jwt.Token) (interface{}, error) {
+	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
@@ -69,7 +68,7 @@ func (s *AuthService) ParseToken(accessToken string) (int, error) {
 		return 0, err
 	}
 
-	claims, ok := token.Claims.(*tokenClaim)
+	claims, ok := token.Claims.(*tokenClaims)
 	if !ok {
 		return 0, errors.New("couldn't parse claims")
 	}
