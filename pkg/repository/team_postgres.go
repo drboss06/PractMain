@@ -38,12 +38,15 @@ func (r *TeamPostgres) CreateTeam(userId int, team authPract.Team) (int, error) 
 	return id, tx.Commit()
 }
 
-func (r *TeamPostgres) AddUserToTeam(userId int, teamId int) error {
-	addUserToTeamQuery := fmt.Sprintf("INSERT INTO %s (user_id, team_id) VALUES ($1, $2)", userTeamTable)
+func (r *TeamPostgres) AddUserToTeam(userId int, teamId int) (int, error) {
+	var id int
+	addUserToTeamQuery := fmt.Sprintf("INSERT INTO %s (team_id, user_id) VALUES ($1, $2) RETURNING id", teamUserTable)
 
-	_, err := r.db.Exec(addUserToTeamQuery, userId, teamId)
-	if err != nil {
-		return err
+	row := r.db.QueryRow(addUserToTeamQuery, teamId, userId)
+
+	if err := row.Scan(&id); err != nil {
+		return 0, err
 	}
-	return nil
+
+	return id, nil
 }

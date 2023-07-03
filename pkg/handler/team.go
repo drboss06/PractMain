@@ -52,3 +52,32 @@ func (h *Handler) sendMail(c *gin.Context) {
 		"status": "ok",
 	})
 }
+
+type addToTeamInput struct {
+	TeamId int `json:"teamId" binding:"required"`
+}
+
+func (h *Handler) addUserToTeam(c *gin.Context) {
+	var input addToTeamInput
+	var id int
+	UserId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	id, err = h.services.AddUserToTeam(UserId, input.TeamId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"id": id,
+	})
+}

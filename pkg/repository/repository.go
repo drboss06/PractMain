@@ -7,7 +7,7 @@ import (
 
 type Team interface {
 	CreateTeam(userId int, team authPract.Team) (int, error)
-	AddUserToTeam(userId int, teamId int) error
+	AddUserToTeam(userId int, teamId int) (int, error)
 }
 
 type Repository struct {

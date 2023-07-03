@@ -20,6 +20,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		team.POST("/create", h.createTeam)
 		team.POST("/send", h.sendMail)
+		team.POST("/add", h.addUserToTeam)
 	}
 	return router
 }

@@ -38,7 +38,7 @@ func (s *TeamService) SendMailToUser(userEmail string) error {
 	from := "s4sha228@yandex.ru"
 
 	user := "s4sha228@yandex.ru"
-	//password := "sfbeguevylkbnyva"
+	password := "sfbeguevylkbnyva"
 
 	to := []string{
 		userEmail,
@@ -50,7 +50,7 @@ func (s *TeamService) SendMailToUser(userEmail string) error {
 	msg := []byte("Subject: Test mail\r\n\r\n" +
 		"localhost:8000/team/add\r\n")
 
-	auth := smtp.PlainAuth("", user, "sfbeguevylkbnyva", host)
+	auth := smtp.PlainAuth("", user, password, host)
 
 	err := smtp.SendMail(addr, auth, from, to, msg)
 
@@ -78,4 +78,8 @@ func (s *TeamService) ParseToken(accessToken string) (int, error) {
 		return 0, errors.New("couldn't parse claims")
 	}
 	return claims.UserID, nil
+}
+
+func (s *TeamService) AddUserToTeam(userId int, teamId int) (int, error) {
+	return s.repo.AddUserToTeam(userId, teamId)
 }
