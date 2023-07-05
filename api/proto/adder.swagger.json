@@ -1,0 +1,213 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/proto/adder.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Adder"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/create/teams": {
+      "post": {
+        "operationId": "Adder_CreateTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Adder"
+        ]
+      }
+    },
+    "/team/add": {
+      "post": {
+        "operationId": "Adder_AddUserToTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiAddUserToTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiAddUserToTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Adder"
+        ]
+      }
+    },
+    "/team/send": {
+      "post": {
+        "operationId": "Adder_SendMailToUser",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiuserEmailResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiuserEmailRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Adder"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiAddUserToTeamRequest": {
+      "type": "object",
+      "properties": {
+        "UserId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "TeamId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "apiAddUserToTeamResponse": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "apiCreateTeamRequest": {
+      "type": "object",
+      "properties": {
+        "Name": {
+          "type": "string"
+        },
+        "Description": {
+          "type": "string"
+        }
+      }
+    },
+    "apiCreateTeamResponse": {
+      "type": "object",
+      "properties": {
+        "Id": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "apiaccessTokenResponse": {
+      "type": "object",
+      "properties": {
+        "TokenId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "apiuserEmailRequest": {
+      "type": "object",
+      "properties": {
+        "Email": {
+          "type": "string"
+        }
+      }
+    },
+    "apiuserEmailResponse": {
+      "type": "object",
+      "properties": {
+        "Ansver": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

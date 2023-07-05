@@ -1,0 +1,62 @@
+syntax = "proto3";
+option go_package = "pkg/api";
+package api;
+import "google/api/annotations.proto";
+
+
+service Adder {
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
+    option (google.api.http) = {
+      post: "/create/teams"
+      body: "*"
+    };
+  }
+  rpc ParseToken(accessTokenRequest) returns (accessTokenResponse) {}
+  rpc SendMailToUser(userEmailRequest) returns (userEmailResponse) {
+    option (google.api.http) = {
+      post: "/team/send"
+      body: "*"
+    };
+  }
+  rpc AddUserToTeam(AddUserToTeamRequest) returns (AddUserToTeamResponse) {
+    option (google.api.http) = {
+      post: "/team/add"
+      body: "*"
+    };
+  }
+}
+
+message AddUserToTeamRequest {
+  int32 UserId = 1;
+  int32 TeamId = 2;
+}
+
+message AddUserToTeamResponse {
+  int32 Id = 1;
+}
+
+message CreateTeamResponse {
+  int32 Id = 1;
+}
+
+message CreateTeamRequest {
+  string Name = 1;
+  string Description = 2;
+}
+
+
+message accessTokenRequest {
+  string Token = 1;
+}
+
+message accessTokenResponse {
+  int32 TokenId = 1;
+}
+
+message userEmailRequest {
+  string Email = 1;
+}
+
+message userEmailResponse {
+  string Ansver = 1;
+}
