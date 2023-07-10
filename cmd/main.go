@@ -1,13 +1,15 @@
 package main
 
 import (
-	"authPract"
-	"authPract/pkg/handler"
+	"authPract/pkg/api"
 	"authPract/pkg/repository"
 	"authPract/pkg/service"
+	grpc2 "authPract/transfer/grpcserver"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
+	"net"
 )
 
 func main() {
@@ -31,12 +33,25 @@ func main() {
 
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
-	handlers := handler.NewHandler(services)
-	srv := new(authPract.Server)
 
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		logrus.Fatalf("error occured while running http server: %s", err)
+	l, err := net.Listen("tcp", ":8082")
+	if err != nil {
+		logrus.Fatalf("error occured while running gRPC server: %s", err)
 	}
+
+	s := grpc.NewServer()
+	server := grpc2.NewGrpc(services)
+
+	api.RegisterAuthServer(s, server)
+	if err := s.Serve(l); err != nil {
+		logrus.Fatalf("error occured while running gRPC server: %s", err)
+	}
+	//handlers := handler.NewHandler(services)
+	//srv := new(authPract.Server)
+	//
+	//if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+	//	logrus.Fatalf("error occured while running http server: %s", err)
+	//}
 
 }
 

@@ -1,0 +1,57 @@
+syntax = "proto3";
+option go_package = "pkg/api";
+package api;
+import "google/api/annotations.proto";
+
+
+service Auth {
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse){
+        option (google.api.http) = {
+            post: "/user/create"
+            body: "*"
+    };
+    }
+    rpc AcceptUser(AcceptUserRequest) returns (AcceptUserResponse){
+        option (google.api.http) = {
+            post: "/user/accept"
+            body: "*"
+    };
+    }
+//    rpc GenerateToken(GenerateTokenRequest) returns (GenerateTokenResponse);
+//    rpc ParseToken(accessTokenRequest) returns (accessTokenResponse);
+}
+
+//message accessTokenRequest {
+//  string Token = 1;
+//}
+//
+//message accessTokenResponse {
+//  int32 TokenId = 1;
+//}
+//
+//message GenerateTokenRequest{
+//    string username = 1;
+//    string password = 2;
+//}
+//
+//message GenerateTokenResponse{
+//    string token = 1;
+//}
+
+message CreateUserRequest {
+    string name = 1;
+    string username = 2;
+    string password = 3;
+}
+message CreateUserResponse {
+    int32 id = 1;
+}
+
+message AcceptUserRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message AcceptUserResponse {
+    string token = 1;
+}
