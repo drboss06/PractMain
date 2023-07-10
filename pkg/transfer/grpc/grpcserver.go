@@ -5,7 +5,10 @@ import (
 	api "authPract/pkg/api"
 	"authPract/pkg/service"
 	"context"
+	"errors"
 	"github.com/spf13/cast"
+	"google.golang.org/grpc/metadata"
+	"strings"
 )
 
 type GRPCServer struct {
@@ -40,15 +43,23 @@ func (g *GRPCServer) ParseToken(ctx context.Context, request *api.AccessTokenReq
 	return &api.AccessTokenResponse{TokenId: cast.ToInt32(a)}, nil
 }
 
-func (g *GRPCServer) CreateTeam(ctx context.Context, request *api.CreateTeamRequest) (*api.CreateTeamResponse, error) {
+func (g *GRPCServer) CreateTeam(ctx context.Context, request *api.CreateNewTeamRequest) (*api.CreateTeamResponse, error) {
 	var input authPract.Team
-
+	//token := ctx.Value("6")
+	ctxMeta, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return nil, errors.New("no metadata found in context")
+	}
+	//userId := ctx.Value("UserId")
+	token := ctxMeta["authorization"][0]
+	headerToken := strings.Split(token, " ")[1]
+	userId, err := g.service.ParseToken(headerToken)
 	input.Name = request.Name
 	input.Description = request.Description
 
-	a, err := g.service.CreateTeam(cast.ToInt(ctx.Value("userId")), input)
+	a, err := g.service.CreateTeam(userId, input)
 	if err != nil {
-		return &api.CreateTeamResponse{Id: cast.ToInt32(1)}, nil
+		return &api.CreateTeamResponse{Id: cast.ToInt32(0)}, nil
 	}
 
 	return &api.CreateTeamResponse{Id: cast.ToInt32(a)}, nil

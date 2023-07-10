@@ -5,7 +5,7 @@ import "google/api/annotations.proto";
 
 
 service Adder {
-  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
+  rpc CreateTeam(CreateNewTeamRequest) returns (CreateTeamResponse) {
     option (google.api.http) = {
       post: "/create/teams"
       body: "*"
@@ -39,9 +39,9 @@ message CreateTeamResponse {
   int32 Id = 1;
 }
 
-message CreateTeamRequest {
-  string Name = 1;
-  string Description = 2;
+message CreateNewTeamRequest {
+  string name = 1;
+  string description = 2;
 }
 
 

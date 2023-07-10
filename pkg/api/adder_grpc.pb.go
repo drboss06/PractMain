@@ -29,7 +29,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AdderClient interface {
-	CreateTeam(ctx context.Context, in *CreateTeamRequest, opts ...grpc.CallOption) (*CreateTeamResponse, error)
+	CreateTeam(ctx context.Context, in *CreateNewTeamRequest, opts ...grpc.CallOption) (*CreateTeamResponse, error)
 	ParseToken(ctx context.Context, in *AccessTokenRequest, opts ...grpc.CallOption) (*AccessTokenResponse, error)
 	SendMailToUser(ctx context.Context, in *UserEmailRequest, opts ...grpc.CallOption) (*UserEmailResponse, error)
 	AddUserToTeam(ctx context.Context, in *AddUserToTeamRequest, opts ...grpc.CallOption) (*AddUserToTeamResponse, error)
@@ -43,7 +43,7 @@ func NewAdderClient(cc grpc.ClientConnInterface) AdderClient {
 	return &adderClient{cc}
 }
 
-func (c *adderClient) CreateTeam(ctx context.Context, in *CreateTeamRequest, opts ...grpc.CallOption) (*CreateTeamResponse, error) {
+func (c *adderClient) CreateTeam(ctx context.Context, in *CreateNewTeamRequest, opts ...grpc.CallOption) (*CreateTeamResponse, error) {
 	out := new(CreateTeamResponse)
 	err := c.cc.Invoke(ctx, Adder_CreateTeam_FullMethodName, in, out, opts...)
 	if err != nil {
@@ -83,7 +83,7 @@ func (c *adderClient) AddUserToTeam(ctx context.Context, in *AddUserToTeamReques
 // All implementations must embed UnimplementedAdderServer
 // for forward compatibility
 type AdderServer interface {
-	CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error)
+	CreateTeam(context.Context, *CreateNewTeamRequest) (*CreateTeamResponse, error)
 	ParseToken(context.Context, *AccessTokenRequest) (*AccessTokenResponse, error)
 	SendMailToUser(context.Context, *UserEmailRequest) (*UserEmailResponse, error)
 	AddUserToTeam(context.Context, *AddUserToTeamRequest) (*AddUserToTeamResponse, error)
@@ -94,7 +94,7 @@ type AdderServer interface {
 type UnimplementedAdderServer struct {
 }
 
-func (UnimplementedAdderServer) CreateTeam(context.Context, *CreateTeamRequest) (*CreateTeamResponse, error) {
+func (UnimplementedAdderServer) CreateTeam(context.Context, *CreateNewTeamRequest) (*CreateTeamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTeam not implemented")
 }
 func (UnimplementedAdderServer) ParseToken(context.Context, *AccessTokenRequest) (*AccessTokenResponse, error) {
@@ -120,7 +120,7 @@ func RegisterAdderServer(s grpc.ServiceRegistrar, srv AdderServer) {
 }
 
 func _Adder_CreateTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateTeamRequest)
+	in := new(CreateNewTeamRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func _Adder_CreateTeam_Handler(srv interface{}, ctx context.Context, dec func(in
 		FullMethod: Adder_CreateTeam_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdderServer).CreateTeam(ctx, req.(*CreateTeamRequest))
+		return srv.(AdderServer).CreateTeam(ctx, req.(*CreateNewTeamRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

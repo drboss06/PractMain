@@ -39,7 +39,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/apiCreateTeamRequest"
+              "$ref": "#/definitions/apiCreateNewTeamRequest"
             }
           }
         ],
@@ -136,13 +136,13 @@
         }
       }
     },
-    "apiCreateTeamRequest": {
+    "apiCreateNewTeamRequest": {
       "type": "object",
       "properties": {
-        "Name": {
+        "name": {
           "type": "string"
         },
-        "Description": {
+        "description": {
           "type": "string"
         }
       }
