@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "api/proto/auth.proto",
+    "title": "api/proto/projects.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "Auth"
+      "name": "Projects"
     }
   ],
   "consumes": [
@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/user/accept": {
+    "/project/create": {
       "post": {
-        "operationId": "Auth_AcceptUser",
+        "operationId": "Projects_CreateProject",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiAcceptUserResponse"
+              "$ref": "#/definitions/projectsProjectIdReply"
             }
           },
           "default": {
@@ -39,55 +39,23 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/apiAcceptUserRequest"
+              "$ref": "#/definitions/projectsProjectRequest"
             }
           }
         ],
         "tags": [
-          "Auth"
+          "Projects"
         ]
       }
     },
-    "/user/create": {
-      "post": {
-        "operationId": "Auth_CreateUser",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiCreateUserResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/apiCreateUserRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Auth"
-        ]
-      }
-    },
-    "/user/{id}": {
+    "/project/{id}": {
       "get": {
-        "operationId": "Auth_GetUserById",
+        "operationId": "Projects_GetProjectById",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiGetUserByIdResponse"
+              "$ref": "#/definitions/projectsProjectReply"
             }
           },
           "default": {
@@ -107,16 +75,16 @@
           }
         ],
         "tags": [
-          "Auth"
+          "Projects"
         ]
       },
       "delete": {
-        "operationId": "Auth_DeleteUser",
+        "operationId": "Projects_DeleteProject",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiDeleteUserResponse"
+              "$ref": "#/definitions/projectsProjectIdReply"
             }
           },
           "default": {
@@ -136,46 +104,92 @@
           }
         ],
         "tags": [
-          "Auth"
+          "Projects"
+        ]
+      },
+      "put": {
+        "operationId": "Projects_UpdateProject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/projectsProjectIdReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "teamId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/project/{teamId}": {
+      "get": {
+        "operationId": "Projects_GetProjectByTeamId",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/projectsProjectsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Projects"
         ]
       }
     }
   },
   "definitions": {
-    "apiAcceptUserRequest": {
-      "type": "object",
-      "properties": {
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "apiAcceptUserResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        }
-      }
-    },
-    "apiCreateUserRequest": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "apiCreateUserResponse": {
+    "projectsProjectIdReply": {
       "type": "object",
       "properties": {
         "id": {
@@ -184,10 +198,7 @@
         }
       }
     },
-    "apiDeleteUserResponse": {
-      "type": "object"
-    },
-    "apiGetUserByIdResponse": {
+    "projectsProjectReply": {
       "type": "object",
       "properties": {
         "id": {
@@ -197,11 +208,39 @@
         "name": {
           "type": "string"
         },
-        "username": {
+        "description": {
           "type": "string"
         },
-        "passwordHash": {
+        "teamId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "projectsProjectRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
           "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "teamId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "projectsProjectsReply": {
+      "type": "object",
+      "properties": {
+        "projects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/projectsProjectReply"
+          }
         }
       }
     },

@@ -9,16 +9,51 @@ service Auth {
         option (google.api.http) = {
             post: "/user/create"
             body: "*"
-    };
+        };
     }
     rpc AcceptUser(AcceptUserRequest) returns (AcceptUserResponse){
         option (google.api.http) = {
             post: "/user/accept"
             body: "*"
-    };
+        };
     }
-//    rpc GenerateToken(GenerateTokenRequest) returns (GenerateTokenResponse);
-//    rpc ParseToken(accessTokenRequest) returns (accessTokenResponse);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse){
+        option (google.api.http) = {
+            delete: "/user/{id}"
+        };
+    }
+
+    rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse){
+        option (google.api.http) = {
+            get: "/user/{id}"
+        };
+    }
+    //    rpc GenerateToken(GenerateTokenRequest) returns (GenerateTokenResponse);
+    //    rpc ParseToken(accessTokenRequest) returns (accessTokenResponse);
+}
+
+message DeleteUserRequest{
+    int32 id = 1;
+}
+message DeleteUserResponse{
+}
+
+message GetUserByIdRequest{
+    int32 id = 1;
+}
+
+message GetUserByIdResponse{
+    int32 id = 1;
+    string name = 2;
+    string username = 3;
+    string password_hash = 4;
+}
+
+message UserReplay {
+    int32 id = 1;
+    string name = 2;
+    string username = 3;
+    string password_hash = 4;
 }
 
 //message accessTokenRequest {

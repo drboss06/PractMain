@@ -16,39 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/create/teams": {
-      "post": {
-        "operationId": "Adder_CreateTeam",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiCreateTeamResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/apiCreateNewTeamRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Adder"
-        ]
-      }
-    },
-    "/team/add": {
+    "/api/team/add": {
       "post": {
         "operationId": "Adder_AddUserToTeam",
         "responses": {
@@ -80,7 +48,39 @@
         ]
       }
     },
-    "/team/send": {
+    "/api/team/create": {
+      "post": {
+        "operationId": "Adder_CreateTeam",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateTeamResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateNewTeamRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Adder"
+        ]
+      }
+    },
+    "/api/team/send": {
       "post": {
         "operationId": "Adder_SendMailToUser",
         "responses": {

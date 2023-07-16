@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+option go_package = "pkg/api";
+import "google/api/annotations.proto";
+package projects;
+
+service Projects {
+  rpc CreateProject (ProjectRequest) returns (ProjectIdReply) {
+    option (google.api.http) = {
+      post: "/project/create"
+      body: "*"
+    };
+  }
+  rpc GetProjectByTeamId (TeamIdRequest) returns (ProjectsReply) {
+    option (google.api.http) = {
+      get: "/project/{team_id}"
+    };
+  }
+  rpc DeleteProject (ProjectIdRequest) returns (ProjectIdReply) {
+    option (google.api.http) = {
+      delete: "/project/{id}"
+    };
+  }
+  rpc UpdateProject (UpdateRequest) returns (ProjectIdReply) {
+    option (google.api.http) = {
+      put: "/project/{id}"
+    };
+  }
+  rpc GetProjectById (ProjectIdRequest) returns (ProjectReply) {
+    option (google.api.http) = {
+      get: "/project/{id}"
+    };
+  }
+}
+
+message TeamIdRequest {
+  int32 team_id = 1;
+}
+
+message ProjectIdRequest {
+  int32 id = 1;
+}
+
+message ProjectReply {
+  int32 id = 1;
+  string name = 2;
+  string  description = 3;
+  int32 team_id = 4;
+}
+
+message UpdateRequest{
+  int32 id = 1;
+  optional string name = 2;
+  optional string  description = 3;
+  optional int32 team_id = 4;
+}
+
+message ProjectRequest {
+  string name = 1;
+  string  description = 2;
+  int32 team_id = 3;
+}
+
+
+message ProjectIdReply {
+  int32 id = 1;
+};
+
+message ProjectsReply {
+  repeated ProjectReply projects = 1;
+}

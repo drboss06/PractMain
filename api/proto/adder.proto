@@ -7,20 +7,20 @@ import "google/api/annotations.proto";
 service Adder {
   rpc CreateTeam(CreateNewTeamRequest) returns (CreateTeamResponse) {
     option (google.api.http) = {
-      post: "/create/teams"
+      post: "/api/team/create"
       body: "*"
     };
   }
   rpc ParseToken(accessTokenRequest) returns (accessTokenResponse) {}
   rpc SendMailToUser(userEmailRequest) returns (userEmailResponse) {
     option (google.api.http) = {
-      post: "/team/send"
+      post: "/api/team/send"
       body: "*"
     };
   }
   rpc AddUserToTeam(AddUserToTeamRequest) returns (AddUserToTeamResponse) {
     option (google.api.http) = {
-      post: "/team/add"
+      post: "/api/team/add"
       body: "*"
     };
   }

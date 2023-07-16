@@ -181,7 +181,7 @@ func RegisterAdderHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.Adder/CreateTeam", runtime.WithHTTPPathPattern("/create/teams"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.Adder/CreateTeam", runtime.WithHTTPPathPattern("/api/team/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -231,7 +231,7 @@ func RegisterAdderHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.Adder/SendMailToUser", runtime.WithHTTPPathPattern("/team/send"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.Adder/SendMailToUser", runtime.WithHTTPPathPattern("/api/team/send"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -256,7 +256,7 @@ func RegisterAdderHandlerServer(ctx context.Context, mux *runtime.ServeMux, serv
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.Adder/AddUserToTeam", runtime.WithHTTPPathPattern("/team/add"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/api.Adder/AddUserToTeam", runtime.WithHTTPPathPattern("/api/team/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -320,7 +320,7 @@ func RegisterAdderHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.Adder/CreateTeam", runtime.WithHTTPPathPattern("/create/teams"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.Adder/CreateTeam", runtime.WithHTTPPathPattern("/api/team/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -364,7 +364,7 @@ func RegisterAdderHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.Adder/SendMailToUser", runtime.WithHTTPPathPattern("/team/send"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.Adder/SendMailToUser", runtime.WithHTTPPathPattern("/api/team/send"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -386,7 +386,7 @@ func RegisterAdderHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.Adder/AddUserToTeam", runtime.WithHTTPPathPattern("/team/add"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/api.Adder/AddUserToTeam", runtime.WithHTTPPathPattern("/api/team/add"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -406,13 +406,13 @@ func RegisterAdderHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Adder_CreateTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"create", "teams"}, ""))
+	pattern_Adder_CreateTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "team", "create"}, ""))
 
 	pattern_Adder_ParseToken_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"api.Adder", "ParseToken"}, ""))
 
-	pattern_Adder_SendMailToUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"team", "send"}, ""))
+	pattern_Adder_SendMailToUser_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "team", "send"}, ""))
 
-	pattern_Adder_AddUserToTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"team", "add"}, ""))
+	pattern_Adder_AddUserToTeam_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "team", "add"}, ""))
 )
 
 var (
