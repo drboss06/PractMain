@@ -32,3 +32,16 @@ func (r *AuthPostgres) GetUser(username, password string) (authPract.User, error
 
 	return user, err
 }
+
+func (r *AuthPostgres) DeleteUser(id int) error {
+	query := fmt.Sprintf("DELETE FROM %s WHERE id=$1", userTable)
+	_, err := r.db.Exec(query, id)
+	return err
+}
+
+func (r *AuthPostgres) GetUserById(id int) (authPract.UserWidthPassHash, error) {
+	var user authPract.UserWidthPassHash
+	query := fmt.Sprintf("SELECT * FROM %s WHERE id=$1", userTable)
+	err := r.db.Get(&user, query, id)
+	return user, err
+}

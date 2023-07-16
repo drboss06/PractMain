@@ -74,3 +74,11 @@ func (s *AuthService) ParseToken(accessToken string) (int, error) {
 	}
 	return claims.UserID, nil
 }
+
+func (s *AuthService) DeleteUser(userId int) error {
+	return s.repo.DeleteUser(userId)
+}
+
+func (s *AuthService) GetUserById(userId int) (authPract.UserWidthPassHash, error) {
+	return s.repo.GetUserById(userId)
+}

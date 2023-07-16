@@ -5,6 +5,7 @@ import (
 	api "authPract/pkg/api"
 	"authPract/pkg/service"
 	"context"
+	"fmt"
 	"github.com/spf13/cast"
 )
 
@@ -13,11 +14,33 @@ type GRPCServer struct {
 	api.UnimplementedAuthServer
 }
 
+func (g *GRPCServer) GetUserById(ctx context.Context, request *api.GetUserByIdRequest) (*api.GetUserByIdResponse, error) {
+	user, err := g.service.GetUserById(cast.ToInt(request.Id))
+	if err != nil {
+		return &api.GetUserByIdResponse{}, err
+	}
+	//var userRelay []*api.UserReplay
+
+	//userRelay = append(userRelay, &api.UserReplay{Id: cast.ToInt32(user.Id), Name: user.Name, Username: user.Username, PasswordHash: user.Password})
+
+	return &api.GetUserByIdResponse{Id: cast.ToInt32(user.Id), Name: user.Name, Username: user.Username, PasswordHash: user.Password}, nil
+}
+
+func (g *GRPCServer) DeleteUser(ctx context.Context, request *api.DeleteUserRequest) (*api.DeleteUserResponse, error) {
+	err := g.service.DeleteUser(cast.ToInt(request.Id))
+	if err != nil {
+		return &api.DeleteUserResponse{}, err
+	}
+	return &api.DeleteUserResponse{}, nil
+}
+
 func (g *GRPCServer) CreateUser(ctx context.Context, request *api.CreateUserRequest) (*api.CreateUserResponse, error) {
 	var input authPract.User
 	input.Name = cast.ToString(request.Name)
 	input.Username = cast.ToString(request.Username)
 	input.Password = cast.ToString(request.Password)
+	userId := ctx.Value("userId")
+	fmt.Println(userId)
 
 	a, err := g.service.CreateUser(input)
 	if err != nil {

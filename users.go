@@ -6,3 +6,10 @@ type User struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
+
+type UserWidthPassHash struct {
+	Id       int    `json:"-" db:"id"`
+	Name     string `json:"name" binding:"required"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password_hash" db:"password_hash"`
+}

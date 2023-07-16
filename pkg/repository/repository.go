@@ -8,6 +8,8 @@ import (
 type Authorization interface {
 	CreateUser(user authPract.User) (int, error)
 	GetUser(username, password string) (authPract.User, error)
+	DeleteUser(id int) error
+	GetUserById(id int) (authPract.UserWidthPassHash, error)
 }
 
 type Repository struct {
