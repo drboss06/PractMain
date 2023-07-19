@@ -7,28 +7,28 @@ package projects;
 service Projects {
   rpc CreateProject (ProjectRequest) returns (ProjectIdReply) {
     option (google.api.http) = {
-      post: "/project/create"
+      post: "/api/project/create"
       body: "*"
     };
   }
   rpc GetProjectByTeamId (TeamIdRequest) returns (ProjectsReply) {
     option (google.api.http) = {
-      get: "/project/{team_id}"
+      get: "/api/project/team/{team_id}"
     };
   }
   rpc DeleteProject (ProjectIdRequest) returns (ProjectIdReply) {
     option (google.api.http) = {
-      delete: "/project/{id}"
+      delete: "/api/project/{id}"
     };
   }
   rpc UpdateProject (UpdateRequest) returns (ProjectIdReply) {
     option (google.api.http) = {
-      put: "/project/{id}"
+      put: "/api/project/{id}"
     };
   }
   rpc GetProjectById (ProjectIdRequest) returns (ProjectReply) {
     option (google.api.http) = {
-      get: "/project/{id}"
+      get: "/api/project/{id}"
     };
   }
 }

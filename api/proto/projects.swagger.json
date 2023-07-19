@@ -16,7 +16,7 @@
     "application/json"
   ],
   "paths": {
-    "/project/create": {
+    "/api/project/create": {
       "post": {
         "operationId": "Projects_CreateProject",
         "responses": {
@@ -48,7 +48,38 @@
         ]
       }
     },
-    "/project/{id}": {
+    "/api/project/team/{teamId}": {
+      "get": {
+        "operationId": "Projects_GetProjectByTeamId",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/projectsProjectsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Projects"
+        ]
+      }
+    },
+    "/api/project/{id}": {
       "get": {
         "operationId": "Projects_GetProjectById",
         "responses": {
@@ -147,37 +178,6 @@
             "name": "teamId",
             "in": "query",
             "required": false,
-            "type": "integer",
-            "format": "int32"
-          }
-        ],
-        "tags": [
-          "Projects"
-        ]
-      }
-    },
-    "/project/{teamId}": {
-      "get": {
-        "operationId": "Projects_GetProjectByTeamId",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/projectsProjectsReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "teamId",
-            "in": "path",
-            "required": true,
             "type": "integer",
             "format": "int32"
           }
