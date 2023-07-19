@@ -3,11 +3,14 @@ package http
 import (
 	"authPract/pkg/api"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/spf13/viper"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"io"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -53,6 +56,24 @@ func RunRest() {
 				http.Error(w, "You are not authorise", 400)
 				return
 			}
+		}
+
+		if strings.HasPrefix(r.URL.Path, "/upload") {
+			file, handler, err := r.FormFile("file")
+			if err != nil {
+				log.Fatalf("Failed to open file: %v", err)
+			}
+			defer file.Close() //close the file when we finish
+			//this is path which  we want to store the file
+			f, err := os.OpenFile(viper.GetString("filedir")+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+			if err != nil {
+				log.Fatalf("Failed to open file: %v", err)
+			}
+			defer f.Close()
+
+			io.Copy(f, file)
+			//here we save our file to our path
+			return
 		}
 
 		gw.ServeHTTP(w, r)

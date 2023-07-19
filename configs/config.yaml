@@ -1,4 +1,5 @@
 port: "8000"
+filedir: "./"
 
 db:
   username: "postgres"
