@@ -24,6 +24,37 @@ service Adder {
       body: "*"
     };
   }
+  rpc Delete(Id) returns (Id) {
+    option (google.api.http) = {
+      delete: "/api/team/{id}"
+    };
+  }
+  rpc GetById(Id) returns (TeamRequest) {
+    option (google.api.http) = {
+      get: "/api/team/{id}"
+    };
+  }
+  rpc GetByUserId(Id) returns (TeamsRequest) {
+    option (google.api.http) = {
+      get: "/api/team/user/{id}"
+    };
+  }
+  rpc Update(UpdateTeamRequest) returns (TeamRequest) {
+    option (google.api.http) = {
+      put: "/api/team/update/{id}"
+      body: "*"
+    };
+  }
+}
+
+message TeamRequest{
+  int32 Id = 1;
+  string Name = 2;
+  string Description = 3;
+}
+
+message TeamsRequest{
+  repeated TeamRequest Teams = 1;
 }
 
 message AddUserToTeamRequest {
@@ -44,6 +75,12 @@ message CreateNewTeamRequest {
   string description = 2;
 }
 
+message UpdateTeamRequest {
+  int32 id = 1;
+  optional string name = 2;
+  optional string description = 3;
+}
+
 
 message accessTokenRequest {
   string Token = 1;
@@ -59,4 +96,9 @@ message userEmailRequest {
 
 message userEmailResponse {
   string Ansver = 1;
+}
+
+
+message Id {
+  int32 id = 1;
 }
