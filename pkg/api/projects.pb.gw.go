@@ -305,7 +305,7 @@ func RegisterProjectsHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/CreateProject", runtime.WithHTTPPathPattern("/project/create"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/CreateProject", runtime.WithHTTPPathPattern("/api/project/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -330,7 +330,7 @@ func RegisterProjectsHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/GetProjectByTeamId", runtime.WithHTTPPathPattern("/project/{team_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/GetProjectByTeamId", runtime.WithHTTPPathPattern("/api/project/team/{team_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -355,7 +355,7 @@ func RegisterProjectsHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/DeleteProject", runtime.WithHTTPPathPattern("/project/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/DeleteProject", runtime.WithHTTPPathPattern("/api/project/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -380,7 +380,7 @@ func RegisterProjectsHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/UpdateProject", runtime.WithHTTPPathPattern("/project/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/UpdateProject", runtime.WithHTTPPathPattern("/api/project/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -405,7 +405,7 @@ func RegisterProjectsHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/GetProjectById", runtime.WithHTTPPathPattern("/project/{id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/projects.Projects/GetProjectById", runtime.WithHTTPPathPattern("/api/project/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -469,7 +469,7 @@ func RegisterProjectsHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/CreateProject", runtime.WithHTTPPathPattern("/project/create"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/CreateProject", runtime.WithHTTPPathPattern("/api/project/create"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -491,7 +491,7 @@ func RegisterProjectsHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/GetProjectByTeamId", runtime.WithHTTPPathPattern("/project/{team_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/GetProjectByTeamId", runtime.WithHTTPPathPattern("/api/project/team/{team_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -513,7 +513,7 @@ func RegisterProjectsHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/DeleteProject", runtime.WithHTTPPathPattern("/project/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/DeleteProject", runtime.WithHTTPPathPattern("/api/project/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -535,7 +535,7 @@ func RegisterProjectsHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/UpdateProject", runtime.WithHTTPPathPattern("/project/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/UpdateProject", runtime.WithHTTPPathPattern("/api/project/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -557,7 +557,7 @@ func RegisterProjectsHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/GetProjectById", runtime.WithHTTPPathPattern("/project/{id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/projects.Projects/GetProjectById", runtime.WithHTTPPathPattern("/api/project/{id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -577,15 +577,15 @@ func RegisterProjectsHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 }
 
 var (
-	pattern_Projects_CreateProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"project", "create"}, ""))
+	pattern_Projects_CreateProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"api", "project", "create"}, ""))
 
-	pattern_Projects_GetProjectByTeamId_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"project", "team_id"}, ""))
+	pattern_Projects_GetProjectByTeamId_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"api", "project", "team", "team_id"}, ""))
 
-	pattern_Projects_DeleteProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"project", "id"}, ""))
+	pattern_Projects_DeleteProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"api", "project", "id"}, ""))
 
-	pattern_Projects_UpdateProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"project", "id"}, ""))
+	pattern_Projects_UpdateProject_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"api", "project", "id"}, ""))
 
-	pattern_Projects_GetProjectById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 1, 0, 4, 1, 5, 1}, []string{"project", "id"}, ""))
+	pattern_Projects_GetProjectById_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 1, 0, 4, 1, 5, 2}, []string{"api", "project", "id"}, ""))
 )
 
 var (
