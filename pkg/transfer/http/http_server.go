@@ -2,6 +2,7 @@ package http
 
 import (
 	"authPract/pkg/api"
+	"authPract/pkg/service"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
@@ -63,8 +64,7 @@ func RunRest() {
 			if err != nil {
 				log.Fatalf("Failed to open file: %v", err)
 			}
-			defer file.Close() //close the file when we finish
-			//this is path which  we want to store the file
+			defer file.Close()
 			f, err := os.OpenFile(viper.GetString("filedir")+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 			if err != nil {
 				log.Fatalf("Failed to open file: %v", err)
@@ -73,6 +73,12 @@ func RunRest() {
 
 			io.Copy(f, file)
 			//here we save our file to our path
+			CSVServ := service.NewCsvProp()
+			_, err = CSVServ.ParseCSV(viper.GetString("filedir") + handler.Filename)
+			if err != nil {
+				log.Fatalf("Failed to open file: %v", err)
+			}
+			
 			return
 		}
 

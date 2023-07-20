@@ -10,6 +10,7 @@ type Team interface {
 	ParseToken(accessToken string) (int, error)
 	SendMailToUser(userEmail string) error
 	AddUserToTeam(userId int, teamId int) (int, error)
+	ParseCSV(fileName string) (string, error)
 }
 
 type Service struct {

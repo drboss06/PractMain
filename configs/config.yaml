@@ -8,3 +8,11 @@ db:
   port: "5436"
   dbname: "postgres"
   sslmode: "disable"
+
+
+clickdb:
+  host: "pheerses.space"
+  port: "8123"
+  database: "default"
+  usrname: "practice"
+  password: "secretKey_lhv323as5vc_d23k32mk"
