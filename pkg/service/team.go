@@ -33,7 +33,7 @@ func (s *TeamService) Delete(projectId int) error {
 	return s.repo.Delete(projectId)
 }
 
-func (s *TeamService) Update(projectId int, input authPract.Team) error {
+func (s *TeamService) Update(projectId int, input authPract.Team) (authPract.Team, error) {
 	return s.repo.Update(projectId, input)
 }
 

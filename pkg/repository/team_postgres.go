@@ -13,7 +13,7 @@ type TeamPostgres struct {
 
 func (r *TeamPostgres) GetByUserId(userId int) ([]authPract.Team, error) {
 	var teams []authPract.Team
-	query := fmt.Sprintf(`SELECT * FROM %s as us join %s as ut on us.id = ut.user_id where ut.user_id = $1`, teamTable, teamUserTable)
+	query := fmt.Sprintf(`SELECT us.id, us.name, us.team_description as description FROM %s as us join %s as ut on us.id = ut.team_id where ut.user_id = $1`, teamTable, userTeamTable)
 	if err := r.db.Select(&teams, query, userId); err != nil {
 		return teams, err
 	}
@@ -22,7 +22,7 @@ func (r *TeamPostgres) GetByUserId(userId int) ([]authPract.Team, error) {
 
 func (r *TeamPostgres) GetById(Id int) (authPract.Team, error) {
 	var item authPract.Team
-	query := fmt.Sprintf(`SELECT (*) FROM %s WHERE id = $1`, teamTable)
+	query := fmt.Sprintf(`SELECT id, name, team_description as description FROM %s WHERE id = $1`, teamTable)
 	if err := r.db.Get(&item, query, Id); err != nil {
 		return item, err
 	}
@@ -35,7 +35,7 @@ func (r *TeamPostgres) Delete(projectId int) error {
 	return err
 }
 
-func (r *TeamPostgres) Update(projectId int, input authPract.Team) error {
+func (r *TeamPostgres) Update(projectId int, input authPract.Team) (authPract.Team, error) {
 	setValues := make([]string, 0)
 	args := make([]interface{}, 0)
 	argId := 1
@@ -47,7 +47,7 @@ func (r *TeamPostgres) Update(projectId int, input authPract.Team) error {
 	}
 
 	if input.Description != "" {
-		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		setValues = append(setValues, fmt.Sprintf("team_description=$%d", argId))
 		args = append(args, input.Description)
 		argId++
 	}
@@ -59,7 +59,10 @@ func (r *TeamPostgres) Update(projectId int, input authPract.Team) error {
 	args = append(args, projectId)
 	fmt.Println(query, args)
 	_, err := r.db.Exec(query, args...)
-	return err
+	if err != nil {
+		return authPract.Team{}, err
+	}
+	return r.GetById(projectId)
 }
 
 func NewTeamPostgres(db *sqlx.DB) *TeamPostgres {

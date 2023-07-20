@@ -6,6 +6,7 @@ import (
 	"authPract/pkg/service"
 	"context"
 	"errors"
+	"fmt"
 	"github.com/spf13/cast"
 	"google.golang.org/grpc/metadata"
 	"strings"
@@ -87,11 +88,19 @@ func (g *GRPCServer) GetById(ctx context.Context, request *api.Id) (*api.TeamReq
 }
 
 func (g *GRPCServer) Update(ctx context.Context, request *api.UpdateTeamRequest) (*api.TeamRequest, error) {
-	err := g.service.Update(cast.ToInt(request.Id), authPract.Team{Name: *request.Name, Description: *request.Description})
+	fmt.Println(request)
+	var t authPract.Team
+	if request.Name != nil {
+		t.Name = *request.Name
+	}
+	if request.Description != nil {
+		t.Description = *request.Description
+	}
+	team, err := g.service.Update(cast.ToInt(request.Id), t)
 	if err != nil {
 		return nil, err
 	}
-	return &api.TeamRequest{Id: request.Id, Name: *request.Name, Description: *request.Description}, nil
+	return &api.TeamRequest{Id: cast.ToInt32(team.Id), Name: team.Name, Description: team.Description}, nil
 }
 
 func (g *GRPCServer) GetByUserId(ctx context.Context, request *api.Id) (*api.TeamsRequest, error) {
