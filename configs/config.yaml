@@ -2,17 +2,17 @@ port: "8000"
 filedir: "./"
 
 db:
-  username: "postgres"
-  password: "qwerty"
-  host: "localhost"
-  port: "5436"
-  dbname: "postgres"
+  username: "pheerses"
+  password: "Rewqasd1234."
+  host: "pheerses.space"
+  port: "5432"
+  dbname: "pheerses"
   sslmode: "disable"
 
 
 clickdb:
   host: "pheerses.space"
-  port: "8123"
+  port: "9000"
   database: "default"
   usrname: "practice"
   password: "secretKey_lhv323as5vc_d23k32mk"

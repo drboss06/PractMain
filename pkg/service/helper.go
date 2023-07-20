@@ -36,7 +36,7 @@ func (c *CsvProp) ParseCSV(fileName string) (string, error) {
 
 	var csvMet = CsvProp{}
 	var reader = csvMet.parceCsvFile(viper.GetString("filedir") + fileName)
-	var tableName = fileName
+	var tableName = strings.Split(fileName, ".")[0]
 	var dbName = viper.GetString("clickdb.database")
 
 	fmt.Println("Create queries...")
@@ -77,7 +77,7 @@ func (c *CsvProp) ParseCSV(fileName string) (string, error) {
 
 	fmt.Println("All right")
 
-	return fileName, nil
+	return tableName, nil
 }
 
 func (c *CsvProp) readCsvFile(filePath string) [][]string {

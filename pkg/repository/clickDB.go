@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	"github.com/ClickHouse/clickhouse-go/v2"
 	"github.com/ClickHouse/clickhouse-go/v2/lib/driver"
@@ -17,15 +16,18 @@ func (d *DbClick) Connect() (driver.Conn, error) {
 	//if err := initConfig(); err != nil {
 	//	logrus.Fatalf("error init configs: ")
 	//}
+	if err := initConfig(); err != nil {
+		return nil, err
+	}
 
 	var (
 		ctx       = context.Background()
 		conn, err = clickhouse.Open(&clickhouse.Options{
-			Addr: []string{"zhsp50ofx7.us-west-2.aws.clickhouse.cloud:9440"},
+			Addr: []string{viper.GetString("clickdb.host") + ":" + viper.GetString("clickdb.port")},
 			Auth: clickhouse.Auth{
-				Database: "default",
-				Username: "default",
-				Password: "RH0Q~jvGUOPhZ",
+				Database: viper.GetString("clickdb.database"),
+				Username: viper.GetString("clickdb.usrname"),
+				Password: viper.GetString("clickdb.password"),
 			},
 			ClientInfo: clickhouse.ClientInfo{
 				Products: []struct {
@@ -39,9 +41,9 @@ func (d *DbClick) Connect() (driver.Conn, error) {
 			Debugf: func(format string, v ...interface{}) {
 				fmt.Printf(format, v)
 			},
-			TLS: &tls.Config{
-				InsecureSkipVerify: true,
-			},
+			//TLS: &tls.Config{
+			//	InsecureSkipVerify: true,
+			//},
 		})
 	)
 

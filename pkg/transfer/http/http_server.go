@@ -3,6 +3,7 @@ package http
 import (
 	"authPract/pkg/api"
 	"authPract/pkg/service"
+	"encoding/json"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/spf13/viper"
 	"golang.org/x/net/context"
@@ -14,6 +15,9 @@ import (
 	"os"
 	"strings"
 )
+
+type SomeStruct struct {
+}
 
 func RunRest() {
 	ctx := context.Background()
@@ -72,13 +76,27 @@ func RunRest() {
 			defer f.Close()
 
 			io.Copy(f, file)
-			//here we save our file to our path
+			////here we save our file to our path
 			CSVServ := service.NewCsvProp()
-			_, err = CSVServ.ParseCSV(viper.GetString("filedir") + handler.Filename)
+			table_name, err := CSVServ.ParseCSV(handler.Filename)
 			if err != nil {
 				log.Fatalf("Failed to open file: %v", err)
 			}
-			
+
+			w.Header().Set("Content-Type", "application/json")
+			resp := make(map[string]string)
+			resp["table name"] = table_name
+			jsonResp, err := json.Marshal(resp)
+			if err != nil {
+				log.Fatalf("Error happened in JSON marshal. Err: %s", err)
+			}
+			w.Write(jsonResp)
+
+			//data := SomeStruct{}
+			//w.Header().Set("Content-Type", "application/json")
+			//w.WriteHeader(http.StatusCreated)
+			//json.NewEncoder(w).Encode(data)
+
 			return
 		}
 
