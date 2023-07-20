@@ -37,6 +37,11 @@ func RunRest() {
 	}
 	err = api.RegisterProjectsHandlerFromEndpoint(ctx, gw, "localhost:8083", opts)
 
+	err = api.RegisterPmServiceHandlerFromEndpoint(ctx, gw, "localhost:8084", opts)
+	if err != nil {
+		panic(err)
+	}
+
 	mux := http.NewServeMux()
 	//mux.Handle("/", gw)
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

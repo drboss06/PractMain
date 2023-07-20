@@ -1,0 +1,37 @@
+syntax = "proto3";
+option go_package = "pkg/api";
+package api;
+import "google/api/annotations.proto";
+
+service PmService {
+  rpc GetGraph(GetGraphRequest) returns (GetGraphResponse) {
+  option (google.api.http) = {
+      post: "/graph/get"
+      body: "*"
+      };
+  }
+}
+
+
+message GetGraphRequest {
+  optional int32 duration_start = 1;
+  optional int32 duration_end = 2;
+  repeated string variants = 3;
+  optional float data_pur = 4;
+  optional string tableName = 5;
+}
+
+message GetGraphResponse {
+  optional bytes graph = 1;
+  optional bytes column = 2;
+  repeated variant_column var = 3;
+}
+
+message variant_column {
+  string index = 1;
+  string cases = 2;
+  float persent = 3;
+}
+
+
+
