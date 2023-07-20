@@ -8,6 +8,10 @@ import (
 type Team interface {
 	CreateTeam(userId int, team authPract.Team) (int, error)
 	AddUserToTeam(userId int, teamId int) (int, error)
+	GetByUserId(userId int) ([]authPract.Team, error)
+	GetById(Id int) (authPract.Team, error)
+	Delete(projectId int) error
+	Update(projectId int, input authPract.Team) error
 }
 
 type Repository struct {

@@ -4,10 +4,62 @@ import (
 	"authPract"
 	"fmt"
 	"github.com/jmoiron/sqlx"
+	"strings"
 )
 
 type TeamPostgres struct {
 	db *sqlx.DB
+}
+
+func (r *TeamPostgres) GetByUserId(userId int) ([]authPract.Team, error) {
+	var teams []authPract.Team
+	query := fmt.Sprintf(`SELECT * FROM %s as us join %s as ut on us.id = ut.user_id where ut.user_id = $1`, teamTable, teamUserTable)
+	if err := r.db.Select(&teams, query, userId); err != nil {
+		return teams, err
+	}
+	return teams, nil
+}
+
+func (r *TeamPostgres) GetById(Id int) (authPract.Team, error) {
+	var item authPract.Team
+	query := fmt.Sprintf(`SELECT (*) FROM %s WHERE id = $1`, teamTable)
+	if err := r.db.Get(&item, query, Id); err != nil {
+		return item, err
+	}
+	return item, nil
+}
+
+func (r *TeamPostgres) Delete(projectId int) error {
+	query := fmt.Sprintf(`DELETE FROM %s WHERE id = $1`, teamTable)
+	_, err := r.db.Exec(query, projectId)
+	return err
+}
+
+func (r *TeamPostgres) Update(projectId int, input authPract.Team) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+
+	if input.Name != "" {
+		setValues = append(setValues, fmt.Sprintf("name=$%d", argId))
+		args = append(args, input.Name)
+		argId++
+	}
+
+	if input.Description != "" {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, input.Description)
+		argId++
+	}
+
+	setQuery := strings.Join(setValues, ", ")
+
+	query := fmt.Sprintf(`UPDATE %s SET %s WHERE id = $%d`,
+		teamTable, setQuery, argId)
+	args = append(args, projectId)
+	fmt.Println(query, args)
+	_, err := r.db.Exec(query, args...)
+	return err
 }
 
 func NewTeamPostgres(db *sqlx.DB) *TeamPostgres {

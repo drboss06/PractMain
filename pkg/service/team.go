@@ -21,6 +21,22 @@ type TeamService struct {
 	repo repository.Team
 }
 
+func (s *TeamService) GetByUserId(userId int) ([]authPract.Team, error) {
+	return s.repo.GetByUserId(userId)
+}
+
+func (s *TeamService) GetById(Id int) (authPract.Team, error) {
+	return s.repo.GetById(Id)
+}
+
+func (s *TeamService) Delete(projectId int) error {
+	return s.repo.Delete(projectId)
+}
+
+func (s *TeamService) Update(projectId int, input authPract.Team) error {
+	return s.repo.Update(projectId, input)
+}
+
 type tokenClaims struct {
 	jwt.StandardClaims
 	UserID int `json:"user_id"`

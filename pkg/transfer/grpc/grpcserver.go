@@ -70,6 +70,43 @@ func (g *GRPCServer) mustEmbedUnimplementedAdderServer() {
 	panic("implement me")
 }
 
+func (g *GRPCServer) Delete(ctx context.Context, request *api.Id) (*api.Id, error) {
+	err := g.service.Delete(cast.ToInt(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &api.Id{Id: request.Id}, nil
+}
+
+func (g *GRPCServer) GetById(ctx context.Context, request *api.Id) (*api.TeamRequest, error) {
+	team, err := g.service.GetById(cast.ToInt(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &api.TeamRequest{Id: cast.ToInt32(team.Id), Name: team.Name, Description: team.Description}, nil
+}
+
+func (g *GRPCServer) Update(ctx context.Context, request *api.UpdateTeamRequest) (*api.TeamRequest, error) {
+	err := g.service.Update(cast.ToInt(request.Id), authPract.Team{Name: *request.Name, Description: *request.Description})
+	if err != nil {
+		return nil, err
+	}
+	return &api.TeamRequest{Id: request.Id, Name: *request.Name, Description: *request.Description}, nil
+}
+
+func (g *GRPCServer) GetByUserId(ctx context.Context, request *api.Id) (*api.TeamsRequest, error) {
+	teams, err := g.service.GetByUserId(cast.ToInt(request.Id))
+	if err != nil {
+		return nil, err
+	}
+	var teamsGrpc api.TeamsRequest
+	for _, t := range teams {
+
+		teamsGrpc.Teams = append(teamsGrpc.Teams, &api.TeamRequest{Id: cast.ToInt32(t.Id), Name: t.Name, Description: t.Description})
+	}
+	return &teamsGrpc, nil
+}
+
 func NewGrpc(services *service.Service) *GRPCServer {
 	return &GRPCServer{service: services}
 }
