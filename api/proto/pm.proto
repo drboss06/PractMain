@@ -17,8 +17,9 @@ message GetGraphRequest {
   optional int32 duration_start = 1;
   optional int32 duration_end = 2;
   repeated string variants = 3;
-  optional float data_pur = 4;
-  optional string tableName = 5;
+  optional  string miner = 4;
+  optional float data_pur = 5;
+  optional string tableName = 6;
 }
 
 message GetGraphResponse {

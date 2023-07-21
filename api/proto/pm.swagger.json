@@ -67,6 +67,9 @@
             "type": "string"
           }
         },
+        "miner": {
+          "type": "string"
+        },
         "dataPur": {
           "type": "number",
           "format": "float"
